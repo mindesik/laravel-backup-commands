@@ -106,3 +106,4 @@ Optional cleanup before `composer update`
 }
 ```
 See https://github.com/h-zone/lumen-cleanup-commands
+
