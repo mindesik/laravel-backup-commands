@@ -19,25 +19,8 @@ or
 "h-zone/lumen-backup-commands": "~0.1-dev"
 ```
 
-#### Optional
-Optional cleanup before `composer update`
-`composer.json`
-```json
-"scripts": {
-    "pre-update-cmd": [
-        "php artisan cleanup-commands:view-cache",
-        "php artisan cleanup-commands:logs"
-    ]
-}
-```
-See https://github.com/h-zone/lumen-cleanup-commands
-
 ### Lumen
-`bootstrap/app.php`
-```php
-$app->register(Hzone\BackupCommands\Providers\BackupCommandsServiceProvider::class);
-```
-(not tested yet)
+See https://github.com/h-zone/lumen-backup-commands
 
 ### Laravel 5.2+
 `config/app.php`
@@ -48,22 +31,25 @@ $app->register(Hzone\BackupCommands\Providers\BackupCommandsServiceProvider::cla
     //....
 ],
 ```
-(Laravel before 5.2 is not tested)
+
+### Publish config
+```sh
+php artisan vendor:publish --provider="Hzone\BackupCommands\Providers\BackupCommandsServiceProvider" --tag="config"
+```
 
 ### Usage
 ```sh
 php artisan backup-commands:database
+php artisan backup-commands:database --database=all
+php artisan backup-commands:database --database=dbalias
 php artisan backup-commands:files
 ```
 Or with output (verbosity check)
 ```sh
 php artisan backup-commands:database -v
+php artisan backup-commands:database -v --database=all
+php artisan backup-commands:database -v --database=dbalias
 php artisan backup-commands:files -v
-```
-
-### Configuration
-```sh
-php artisan vendor:publish --provider="Hzone\BackupCommands\Providers\BackupCommandsServiceProvider" --tag="config"
 ```
 
 ### Scheduling
@@ -107,3 +93,16 @@ composer.json
     ]
 }
 ```
+
+#### Optional
+Optional cleanup before `composer update`
+`composer.json`
+```json
+"scripts": {
+    "pre-update-cmd": [
+        "php artisan cleanup-commands:view-cache",
+        "php artisan cleanup-commands:logs"
+    ]
+}
+```
+See https://github.com/h-zone/lumen-cleanup-commands
