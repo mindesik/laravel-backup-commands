@@ -68,16 +68,30 @@ class Kernel extends ConsoleKernel
 	];
 	protected function schedule(Schedule $schedule)
 	{
-		$schedule->command('php artisan backup-commands:database -v')
+		$schedule->command('backup-commands:database -v')
 			->withoutOverlapping()
-			->appendOutputTo(storage_path().'/logs/likes_cheater_scheduler_5_'.$mon.'.log')
-			->dailyAt('04:00')
-		;
-		$schedule->command('php artisan backup-commands:files -v')
+			->appendOutputTo(storage_path().'/logs/backup-database-commands_'.date('Y-M-D_H-i-s').'.log')
+			->dailyAt('04:00');
+		$schedule->command('backup-commands:files -v')
 			->withoutOverlapping()
-			->appendOutputTo(storage_path().'/logs/likes_cheater_scheduler_20_'.$mon.'.log')
-			->weekly()
-		;
+			->appendOutputTo(storage_path().'/logs/backup-files-commands_'.date('Y-M-D_H-i-s').'.log')
+			->weekly();
+
+		/**
+		 * IF YOU NEED TO BACKUP A SPECIFIC DATABASE IN A SPECIFIC TIME,
+		 * USE the --database=dbalias DESIGN
+		 * 
+		 * $schedule->command('backup-commands:database -v --database=dbalias1')
+		 * 	->withoutOverlapping()
+		 * 	->appendOutputTo(storage_path().'/logs/backup-database-commands_dbalias1_'.date('Y-M-D_H-i-s').'.log')
+		 * 	->dailyAt('04:00');
+		 *
+		 * $schedule->command('backup-commands:database -v --database=dbalias2')
+		 * 	->withoutOverlapping()
+		 * 	->appendOutputTo(storage_path().'/logs/backup-database-commands_dbalias2_'.date('Y-M-D_H-i-s').'.log')
+		 * 	->monthly();
+		 * 
+		 */
 	}
 }
 
